@@ -1,12 +1,13 @@
 import { Faq } from "@/interfaces/faq";
 import Layout from "@/layouts/Layout";
-import { NextPage } from "next";
+import { getFaqs } from "@/services/getFaqs";
+import { GetStaticProps, NextPage } from "next";
 
 interface FaqPageProps {
   faqs: Faq[];
 }
 
-const FaqsPage: NextPage<FaqPageProps> = ({ faqs=[] }) => {
+const FaqsPage: NextPage<FaqPageProps> = ({ faqs }) => {
   return (
     <Layout
       title="Preguntas frecuentes"
@@ -28,13 +29,14 @@ const FaqsPage: NextPage<FaqPageProps> = ({ faqs=[] }) => {
   );
 };
 
-// export const getStaticProps: GetStaticProps = async (ctx) => {
-//   const faqs = await getFaqs();
-//   return {
-//     props: {
-//       faqs,
-//     },
-//   };
-// };
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const faqs = await getFaqs() as Faq[] || [];
+
+  return {
+    props: {
+      faqs
+    },
+  };
+};
 
 export default FaqsPage;
